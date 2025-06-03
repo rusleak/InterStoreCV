@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inter</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<!-- Включаем header -->
+<div th:replace="~{includes/header :: header}"></div>
+
+<div class="content">
+    <h2>Categories</h2>
+    <div class="categories">
+        <div class="category" th:each="mainCategory : ${mainCategoryList}">
+            <!-- Ссылка оборачивает изображение -->
+            <a th:href="@{/main-category/{id}(id=${mainCategory.getId()})}">
+                <img th:src="${'/main_category_images/'+mainCategory.getImageUrl()}" alt="Category Image">
+            </a>
+            <!-- Ссылка для текста -->
+            <a th:href="@{/main-category/{id}(id=${mainCategory.getId()})}">
+                <h3 th:text="${mainCategory.getName()}">Category Name</h3>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div style="height: 100px;"></div>
+<!-- Включаем footer -->
+<div th:replace="~{includes/footer.html}"></div>
+
+<script>
+    function showMoreItems() {
+        const hiddenItems = document.querySelectorAll('.popular-items .item.hidden');
+        hiddenItems.forEach(item => {
+            item.classList.remove('hidden');
+        });
+        document.querySelector('.load-more').style.display = 'none';
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+/* ... Keep header, promo, content, categories, footer styles ... */
+.header {
+    background-color: #333333;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.header a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.header a:hover {
+    text-decoration: underline;
+}
+
+.promo-section {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background-color: #f4f4f4;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.promo-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.promo-content {
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.promo-content button {
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border: none;
+    color: #333333;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.content {
+    flex: 1;
+    padding: 40px 20px;
+}
+
+.content h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2em;
+    color: #333333;
+}
+
+.categories,
+.popular-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 -18px;
+}
+
+.category,
+.item {
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    margin: 18px;
+    padding: 0;
+    width: calc(25% - 36px);
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.category:hover,
+.item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.category img,
+.item img {
+    width: 100%;
+    /*height: auto;*/
+    display: block;
+    aspect-ratio: 2 / 1.7;
+    object-fit: cover;
+    object-position: center;
+}
+
+.category h3,
+.item h3 {
+    padding: 10px;
+    font-size: 1.2em;
+    margin: 0;
+    color: #333333;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.load-more {
+    display: block;
+    margin: 40px auto;
+    padding: 10px 20px;
+    background-color: #333333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.footer {
+    background-color: #333333;
+    color: #ffffff;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 40px 20px;
+    border-top: 1px solid #333333; /* Keep border color consistent */
+    margin-top: auto; /* Push footer down if content is short */
+}
+
+.footer .section {
+    padding: 10px;
+}
+
+.footer .section.contacts {
+    flex: 3;
+}
+
+.footer .section.services,
+.footer .section.pages,
+.footer .section.company {
+    flex: 2;
+}
+
+.footer h3 {
+    border-bottom: 2px solid #ffffff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.footer ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer ul li {
+    margin: 10px 0;
+}
+
+.footer ul li a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer ul li a:hover {
+    text-decoration: underline;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Стили для блока товаров */
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+/* Стили для отдельных товаров */
+.product {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.product:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.product a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-image-wrapper {
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.product img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.3s;
+}
+
+.product:hover img {
+    transform: scale(1.08);
+}
+
+.product-info {
+    padding: 10px 0 0 0;
+    margin-top: auto;
+}
+
+.product h3 {
+    font-size: 1.7em;
+    margin: 0 0 12px 0;
+    color: #333333;
+    line-height: 1.2;
+}
+
+.product p {
+    font-size: 1.3em;
+    color: #555;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+}
+.product p:last-of-type {
+    margin-bottom: 0;
+}
+
+
+.main-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* ... Keep slider styles ... */
+.slider-container {
+    width: 100%;
+    text-align: center;
+}
+
+.slider {
+    width: 100%;
+}
+
+.value {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+
+.price-filters {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    /* ADDED: Space below price filters */
+    margin-bottom: 15px;
+}
+/* Keep price checkbox styles if needed */
+.price-checkbox-container { display: flex; align-items: center; margin-bottom: 10px; }
+.price-checkbox-container input[type="checkbox"] { margin-right: 10px; transform: scale(1.2); cursor: pointer; }
+.price-checkbox-container label { font-size: 1.1em; color: #333; }
+.price-checkbox-container label span { display: block; padding: 5px 10px; background-color: #f4f4f4; border-radius: 4px; transition: background-color 0.3s ease; }
+.price-checkbox-container label span:hover { background-color: #e0e0e0; }
+
+
+.filter-form {
+    margin-bottom: 20px;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+button[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Цветовые фильтры */
+.color-filters {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+    gap: 10px;
+    justify-content: start;
+}
+.color-checkbox { display: flex; justify-content: center; align-items: center; }
+.color-checkbox input[type="checkbox"] { display: none; }
+.color-checkbox label { width: 45px; height: 45px; display: inline-block; border: 1px solid #ccc; cursor: pointer; position: relative; background-size: cover; background-position: center; border-radius: 50%; transition: border 0.3s ease, box-shadow 0.3s ease; box-sizing: border-box; }
+.color-checkbox input[type="checkbox"]:checked + label { border: 3px solid #007bff; box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); }
+.color-checkbox input[type="checkbox"]:checked + label::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; color: #fff; font-weight: bold; text-shadow: 0 0 3px rgba(0,0,0,0.7); }
+.color-checkbox label:hover { opacity: 0.8; border-color: #888; }
+
+/* ... Keep category/subcategory styles ... */
+.filter-category ul { list-style-type: none; padding: 0; }
+.filter-category li { margin-bottom: 10px; }
+.subcategory-container { display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: bold; padding: 10px; border-radius: 4px; transition: background-color 0.3s ease, box-shadow 0.3s ease; background-color: #e9e9e9; }
+.subcategory-container:hover { background-color: #d0d0d0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+.subcategory-link { text-decoration: none; color: black; flex-grow: 1; transition: color 0.3s ease; margin-right: 10px; }
+.subcategory-link:hover { color: #007bff; }
+.arrow-container { display: flex; justify-content: center; align-items: center; width: 24px; height: 24px; border: 1px solid #ccc; border-radius: 4px; background-color: #f0f0f0; cursor: pointer; transition: background-color 0.3s ease; flex-shrink: 0; }
+.arrow-container:hover { background-color: #e0e0e0; }
+.arrow { font-size: 12px; line-height: 1; transition: transform 0.3s ease; }
+.nested-category { display: none; margin-top: 10px; padding: 0; list-style: none; }
+.filter-category ul.nested-category { margin-left: 20px; }
+.brand-form, .dimension-form, .tag-form { margin-left: 0; }
+.nested-category a { text-decoration: none; color: #333; padding: 5px 0; display: block; transition: color 0.3s ease; }
+.nested-category a:hover { color: #007bff; }
+.filter-category li.active > ul.nested-category { display: block; }
+
+
+.reset-filters-button { display: block; margin: 20px 0; padding: 10px 20px; background-color: #ff4c4c; color: white; text-align: center; border: none; cursor: pointer; text-decoration: none; border-radius: 5px; font-size: 16px; }
+.reset-filters-button:hover { background-color: #ff1a1a; }
+
+/* === START: Price Input CSS Adjustments === */
+.price-range-container { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.price-range-container label { margin-right: 0; font-weight: bold; flex-shrink: 0; font-size: 0.95em; }
+.price-range-container input[type="number"] { flex-grow: 1; min-width: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; box-sizing: border-box; -webkit-appearance: none; margin: 0; -moz-appearance: textfield; }
+/* === END: Price Input CSS Adjustments === */
+
+.filter-form button { width: 100%; padding: 10px; background-color: #333; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease; margin-top: 20px; font-size: medium; }
+.filter-form button:hover { background-color: #555; }
+
+/* === START: CSS Adjustments for Clickable Labels === */
+.dimension-checkbox,
+.tag-checkbox,
+.brand-checkbox { display: inline-flex; margin: 0; }
+.dimension-checkbox label,
+.tag-checkbox label,
+.brand-checkbox label { display: inline-flex; align-items: center; border: 1px solid grey; border-radius: 5px; padding: 5px 8px; transition: border-color 0.3s ease; margin: 0; white-space: nowrap; cursor: pointer; background-color: #fff; width: 100%; box-sizing: border-box; }
+.dimension-checkbox label:hover,
+.tag-checkbox label:hover,
+.brand-checkbox label:hover { border-color: #2761cb; }
+.dimension-checkbox input[type="checkbox"],
+.tag-checkbox input[type="checkbox"],
+.brand-checkbox input[type="checkbox"] { margin-right: 5px; flex-shrink: 0; cursor: pointer; }
+.dimension-checkbox label span,
+.tag-checkbox label span,
+.brand-checkbox label span { margin: 0; line-height: 1; overflow: hidden; text-overflow: ellipsis; }
+
+/* Active state for filter FORMS */
+.dimension-form.active,
+.tag-form.active,
+.brand-form.active {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+    /* ADDED: Space below the active filter group */
+    margin-bottom: 15px;
+}
+
+/* Original container classes (Keep As Is - only margin relevant now) */
+.dimension-filters,
+.tag-filters,
+.brand-filters { margin-top: 10px; }
+/* === END: CSS Adjustments for Clickable Labels === */
+
+
+.active-category-heading { font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 20px; margin-top: 15px; padding: 0 20px; }
+
+/* Pagination Styles */
+.pagination { display: flex; justify-content: center; padding: 30px 20px; margin-top: 30px; width: 100%; box-sizing: border-box; }
+.pagination ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 10px; }
+.pagination li a, .pagination li span { display: block; padding: 10px 15px; border: 1px solid #ccc; text-decoration: none; color: #333; border-radius: 4px; font-size: 1.1em; }
+.pagination li a:hover { background-color: #eee; border-color: #bbb; }
+.pagination li span { background-color: #333; color: #fff; border-color: #333; cursor: default; }
+
+
+/* Мобильная версия */
+@media (max-width: 1200px) { .products { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; } }
+@media (max-width: 900px) { .products { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; } .product h3 { font-size: 1.6em; } .product p { font-size: 1.2em; } }
+@media (max-width: 768px) { .main-content { flex-direction: column; align-items: stretch; } .sidebar { width: 100%; margin-bottom: 30px; } .products { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); } }
+@media (max-width: 600px) { .products { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; } .product { padding: 15px; } .product h3 { font-size: 1.5em; } .product p { font-size: 1.1em; } .active-category-heading { font-size: 20px; } .price-range-container { flex-direction: column; align-items: stretch;} .price-range-container input[type="number"] { width: 100%; margin-bottom: 5px; /* Keep full width when stacked */ } .price-range-container label { margin-right: 0; margin-bottom: 3px; } .color-filters { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); } .pagination li a, .pagination li span { padding: 8px 12px; font-size: 1em;} }
+
+/* === End of CSS === */

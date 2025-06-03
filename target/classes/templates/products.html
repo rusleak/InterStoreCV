@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inter</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div th:replace="~{includes/header :: header}"></div>
+<div class="active-category-heading" th:utext="'Active category : ' + ${activeCategory}"></div>
+
+<div class="main-content">
+    <div class="sidebar">
+        <div class="filter-category">
+            <h3>Categories</h3>
+            <ul>
+                <li th:each="entry : ${categoryFilters}">
+                    <div class="subcategory-container">
+                        <a class="subcategory-link" th:href="@{/main-category/{id}(id=${mainCategoryId}, subcategoryId=${entry.key.id}, page=${currentPage}, size=${size})}">
+                            <span th:text="${entry.key.name}">Subcategory</span>
+                        </a>
+                        <div class="arrow-container" onclick="toggleNestedCategories(this)">
+                            <span class="arrow">▼</span>
+                        </div>
+                    </div>
+                    <ul class="nested-category">
+                        <li th:each="nestedCategory : ${entry.value}">
+                            <a th:href="@{/main-category/{id}(id=${mainCategoryId}, subcategoryId=${entry.key.id}, nestedCategoryId=${nestedCategory.id}, page=${currentPage}, size=${size})}"
+                               th:text="${nestedCategory.name}">nested category</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <form th:action="@{/main-category/{id}(id=${mainCategoryId}, page=${currentPage}, size=${size})}" method="get" class="filter-form">
+            <input type="hidden" name="nestedCategoryId" th:value="${nestedCategoryId}" />
+            <input type="hidden" name="subcategoryId" th:value="${subcategoryId}" />
+            <input type="hidden" name="page" th:value="${currentPage}" />
+            <input type="hidden" name="size" th:value="${size != null ? size : 16}" />
+
+            <div class="price-filters">
+                <h3>Price</h3>
+                <div class="price-range-container">
+                    <label for="filterMinPrice">From:</label>
+                    <input type="number" id="filterMinPrice" name="filterMinPrice"
+                           th:placeholder="${placeholderFromPrice}"
+                           th:value="${filterMinPrice}" />
+                    <label for="filterMaxPrice">To:</label>
+                    <input type="number" id="filterMaxPrice" name="filterMaxPrice"
+                           th:placeholder="${placeholderToPrice}"
+                           th:value="${filterMaxPrice}" />
+                </div>
+            </div>
+
+            <!-- Brand Filters -->
+            <div class="subcategory-container" onclick="toggleBrands(this)" style="margin-bottom: 5px">
+                <span class="subcategory-link">Brands :</span>
+                <div class="arrow-container">
+                    <span class="arrow">▼</span>
+                </div>
+            </div>
+            <div class="brand-filters nested-category brand-form">
+                <div th:each="brand : ${availableBrands}" class="brand-checkbox">
+                    <label th:for="'brand-' + ${brand}">
+                        <input type="checkbox" name="brands" th:value="${brand}" th:id="'brand-' + ${brand}"
+                               th:checked="${selectedBrands != null and #lists.contains(selectedBrands, brand)}" />
+                        <span th:text="${brand}">Brand</span>
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="subcategory-container" th:if="${subcategoryId != null}" onclick="toggleDimensions(this)">
+                <span class="subcategory-link">Dimensions :</span>
+                <div class="arrow-container">
+                    <span class="arrow">▼</span>
+                </div>
+            </div>
+            <div class="dimension-filters nested-category dimension-form" th:if="${subcategoryId != null}">
+                <div th:each="dimension : ${availableDimensions}" class="dimension-checkbox">
+                    <label th:for="'dimension-' + ${dimension.size}">
+                        <input type="checkbox" name="dimensions"
+                               th:value="${dimension.size}"
+                               th:id="'dimension-' + ${dimension.size}"
+                               th:checked="${selectedDimensions != null and #lists.contains(selectedDimensions, dimension.size)}" />
+                        <span th:text="${dimension.size}">dimension</span>
+                    </label>
+                </div>
+            </div>
+            <!-- Tag Filters -->
+            <div class="subcategory-container" th:if="${subcategoryId != null}" onclick="toggleTags(this)" style="margin-top: 5px">
+                <span class="subcategory-link">Tags :</span>
+                <div class="arrow-container">
+                    <span class="arrow">▼</span>
+                </div>
+            </div>
+            <div class="tag-filters nested-category tag-form" th:if="${subcategoryId != null}">
+                <div th:each="tag : ${availableTags}" class="tag-checkbox">
+                    <label th:for="'tag-' + ${tag.name}">
+                        <input type="checkbox" name="tags"
+                               th:value="${tag.name}"
+                               th:id="'tag-' + ${tag.name}"
+                               th:checked="${selectedTags != null and #lists.contains(selectedTags, tag.name)}" />
+                        <span th:text="${tag.name}">Tag</span>
+                    </label>
+                </div>
+            </div>
+
+            <h3>Colors</h3>
+            <div class="color-filters">
+                <div th:each="color : ${availableColors}" class="color-checkbox">
+                    <input type="checkbox" name="colors" th:value="${color.id}" th:id="'color-' + ${color.id}"
+                           th:checked="${selectedColors != null and #lists.contains(selectedColors, color.id)}" />
+                    <label th:for="'color-' + ${color.id}"
+                           th:style="'background-image: url(\'/color_images/' + ${color.imageUrl} + '\'); background-size: cover; background-position: center;'">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Apply filters</button>
+        </form>
+
+        <!-- Reset Filters Button -->
+        <a th:href="@{/main-category/{id}(id=${mainCategoryId}, page=0, size=${size})}" class="reset-filters-button">Clear filters</a>
+    </div>
+
+    <div class="products">
+        <div class="product" th:each="product : ${productsList}">
+            <a th:href="@{/product/{id}(id=${product.id})}">
+                <div class="product-image-wrapper">
+                    <img th:src="@{'/product_images/' + ${product.productImages.get(0)}}" alt="Product Image">
+                </div>
+                <div class="product-info">
+                    <h3 th:text="${product.name}">Product Name</h3>
+                    <p th:text="${product.price}">Product Price</p>
+                    <p th:text="${product.brand.name}">Brand</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<div class="pagination">
+    <ul>
+        <li th:if="${currentPage > 0}">
+            <a th:href="@{/main-category/{id}(id=${mainCategoryId}, page=${currentPage - 1}, size=${size})}">Prev</a>
+        </li>
+        <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:if="${i != currentPage}" th:href="@{/main-category/{id}(id=${mainCategoryId}, page=${i}, size=${size})}"
+               th:text="${i + 1}">Page Number</a>
+            <span th:if="${i == currentPage}" th:text="${i + 1}">Current Page</span>
+        </li>
+        <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/main-category/{id}(id=${mainCategoryId}, page=${currentPage + 1}, size=${size})}">Next</a>
+        </li>
+    </ul>
+</div>
+<!-- Включаем footer -->
+<div th:replace="~{includes/footer.html}"></div>
+
+<!-- Scripts should generally be at the end -->
+<script>
+    // Your existing JS toggle functions...
+    function toggleNestedCategories(element) {
+        // Find parent LI and toggle active
+        const listItem = element.closest('li');
+        if(listItem) {
+            listItem.classList.toggle('active');
+            const arrow = element.querySelector('.arrow');
+            if (arrow) {
+                arrow.style.transform = listItem.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        }
+    }
+
+    function toggleDimensions(element) {
+        // Find sibling form and toggle active
+        const form = element.nextElementSibling;
+        if (form && form.classList.contains('dimension-form')) {
+            form.classList.toggle('active');
+            const arrow = element.querySelector('.arrow');
+            if (arrow) {
+                arrow.style.transform = form.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        }
+    }
+
+    function toggleTags(element) {
+        // Find sibling form and toggle active
+        const form = element.nextElementSibling;
+        if (form && form.classList.contains('tag-form')) {
+            form.classList.toggle('active');
+            const arrow = element.querySelector('.arrow');
+            if (arrow) {
+                arrow.style.transform = form.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        }
+    }
+
+    function toggleBrands(element) {
+        // Find sibling form and toggle active
+        const form = element.nextElementSibling;
+        if (form && form.classList.contains('brand-form')) {
+            form.classList.toggle('active');
+            const arrow = element.querySelector('.arrow');
+            if (arrow) {
+                arrow.style.transform = form.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        }
+    }
+
+    // Set initial arrow states
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.dimension-form.active, .tag-form.active, .brand-form.active').forEach(form => {
+            const trigger = form.previousElementSibling;
+            if (trigger && trigger.classList.contains('subcategory-container')) {
+                const arrow = trigger.querySelector('.arrow');
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
+            }
+        });
+        document.querySelectorAll('.filter-category li.active').forEach(li => {
+            const arrow = li.querySelector('.subcategory-container .arrow');
+            if (arrow) arrow.style.transform = 'rotate(180deg)';
+        });
+    });
+</script>
+</body>
+</html>
